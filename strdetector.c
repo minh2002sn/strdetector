@@ -119,6 +119,9 @@ uint32_t sd_check(strdetector_t *sd, char c)
       sd->state = S2_101XX;
     else
       sd->state = IDLE;
+    break;
+
+  default: sd->state = IDLE; break;
   }
 
   return SD_ERROR;
