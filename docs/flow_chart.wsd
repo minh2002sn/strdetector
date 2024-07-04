@@ -1,0 +1,57 @@
+@startuml
+hide empty description
+
+start
+
+if (sd == NULL) then (true)
+  :return 0;
+  stop
+endif
+
+if (c != '0' && c != '1') then (true)
+  :return 0;
+  stop
+endif
+
+if (state == IDLE) then (true)
+  if (c == '1') then (true)
+    :state++;
+  endif
+(false) elseif (state == S0_1XXXX) then (true)
+  if (c == '1') then (true)
+    :state++;
+  endif
+(false) elseif (state == S1_10XXX) then (true)
+  if (c == '1') then (true)
+    :state++;
+  else (false)
+    :state = IDLE;
+  endif
+(false) elseif (state == S2_101XX) then (true)
+  if (c == '1') then (true)
+    :state++;
+  else (false)
+    :state = S1_10XXX;
+  endif
+(false) elseif (state == S3_1011X) then (true)
+  if (c == '1') then (true)
+    :state++;
+    :return 1;
+    stop
+  else (false)
+    :state = S0_1XXXX;
+  endif
+(false) elseif (state == S4_10110) then (true)
+  if (c == '1') then (true)
+    :state = S2_101XX;
+  else (false)
+    :state = IDLE;
+  endif
+else (false)
+  :state = IDLE;
+endif
+
+
+stop
+
+@enduml
