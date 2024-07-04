@@ -69,6 +69,59 @@ uint32_t sd_reset(strdetector_t *sd)
 
 uint32_t sd_check(strdetector_t *sd, char c)
 {
+  if (sd == NULL)
+    return SD_ERROR;
+
+  if (c != '1' && c != '0')
+  {
+    sd->state = IDLE;
+    return SD_ERROR;
+  }
+
+  switch (sd->state)
+  {
+  case IDLE:
+    if (c == '1')
+      sd->state++;
+    break;
+
+  case S0_1XXXX:
+    if (c == '0')
+      sd->state++;
+    break;
+
+  case S1_10XXX:
+    if (c == '1')
+      sd->state++;
+    else
+      sd->state = IDLE;
+    break;
+
+  case S2_101XX:
+    if (c == '1')
+      sd->state++;
+    else
+      sd->state = S1_10XXX;
+    break;
+
+  case S3_1011X:
+    if (c == '0')
+    {
+      sd->state++;
+      return SD_SUCCESS;
+    }
+    else
+      sd->state = S0_1XXXX;
+    break;
+
+  case S4_10110:
+    if (c == '1')
+      sd->state = S2_101XX;
+    else
+      sd->state = IDLE;
+  }
+
+  return SD_ERROR;
 }
 
 /* Private definitions ----------------------------------------------- */
