@@ -1,0 +1,25 @@
+@startuml
+hide empty description
+' scale 1000 width
+
+[*] --> IDLE
+
+IDLE --> S0_1XXXX: c == '1'
+IDLE --> IDLE: c == '0'
+
+S0_1XXXX --> S0_1XXXX: c == '1'
+S0_1XXXX --> S1_10XXX: c == '0'
+
+S1_10XXX --> S2_101XX: c == '1'
+S1_10XXX --> IDLE: c == '0'
+
+S2_101XX --> S3_1011X: c == '1'
+S2_101XX --> S1_10XXX: c == '0'
+
+S3_1011X --> S4_10110: c == '0'
+S3_1011X --> S0_1XXXX: c == '1'
+
+S4_10110 --> IDLE: c == '0'
+S4_10110 --> S2_101XX: c == '1'
+
+@enduml
