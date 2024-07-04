@@ -54,8 +54,10 @@
 
 uint32_t sd_init(strdetector_t *sd)
 {
+  // Check input
   if (sd == NULL)
     return SD_ERROR;
+  // Init
   sd->state = IDLE;
   return SD_SUCCESS;
 }
@@ -63,8 +65,10 @@ uint32_t sd_init(strdetector_t *sd)
 
 uint32_t sd_reset(strdetector_t *sd)
 {
+  // Check input
   if (sd == NULL)
     return SD_ERROR;
+  // Reset to default
   sd->state = IDLE;
   return SD_ERROR;
 }
@@ -72,6 +76,7 @@ uint32_t sd_reset(strdetector_t *sd)
 
 uint32_t sd_char_check(strdetector_t *sd, char c)
 {
+  // Check input
   if (sd == NULL)
     return SD_ERROR;
 
@@ -81,6 +86,7 @@ uint32_t sd_char_check(strdetector_t *sd, char c)
     return SD_ERROR;
   }
 
+  // State machine
   switch (sd->state)
   {
   case IDLE:
@@ -134,12 +140,14 @@ uint32_t sd_str_check(strdetector_t *sd, char *str, uint32_t size)
 {
   int cnt = 0;
 
+  // Check input
   if (sd == NULL)
     return SD_ERROR;
 
   if (str == NULL)
     return SD_ERROR;
 
+  // For loop to check each character
   for (int i = 0; i < size; i++)
   {
     if (sd_char_check(sd, *(str + i)))
