@@ -51,6 +51,10 @@
 
 uint32_t sd_init(strdetector_t *sd)
 {
+  if (sd == NULL)
+    return SD_ERROR;
+  sd->state = IDLE;
+  return SD_SUCCESS;
 }
 
 
