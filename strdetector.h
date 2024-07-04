@@ -24,10 +24,13 @@
  *                sd_init(&sd);
  *                for (int i = 0; i < sizeof(str) - 1; i++)
  *                {
- *                  if (sd_check(&sd, str[i]))
- *                    cnt++;
+ *                  if (sd_char_check(&sd, str[i]))
+ *                  cnt++;
  *                }
- *                printf("Number of detected string: %d", cnt);
+ *                printf("Number of detected string: %d\n", cnt);
+ *
+ *                sd_reset(&sd);
+ *                printf("Number of detected string: %d\n", sd_str_check(&sd, str, sizeof(str) - 1));
  *
  *                return 0;
  *              }
@@ -89,7 +92,7 @@ uint32_t sd_init(strdetector_t *sd);
 uint32_t sd_reset(strdetector_t *sd);
 
 /**
- * @brief           Check whether string "10110" appeared
+ * @brief           Check whether string "10110" appeared, check single char
  *
  * @param[in]       sd      Pointer to a cbuffer_t structure
  * @param[in]       c       Input char
@@ -98,7 +101,19 @@ uint32_t sd_reset(strdetector_t *sd);
  *  - (1) : String "10110" is detected
  *  - (0) : String "10110" is not detected
  */
-uint32_t sd_check(strdetector_t *sd, char c);
+uint32_t sd_char_check(strdetector_t *sd, char c);
+
+/**
+ * @brief           Check whether string "10110" appeared, check a string
+ *
+ * @param[in]       sd      Pointer to a cbuffer_t structure
+ * @param[in]       str     Pointer to string buffer
+ * @param[in]       size    Pointer to string buffer
+ *
+ * @return          Number of "10110" string detected
+ */
+uint32_t sd_str_check(strdetector_t *sd, char *str, uint32_t size);
+
 
 #endif // __STRDETECT_H
 
